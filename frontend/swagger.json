@@ -1,0 +1,88 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "AuthLog API",
+		"description": "API для авторизації користувача та отримання журналу активностей"
+	},
+	"host": "localhost:3001",
+	"basePath": "/api",
+	"schemes": ["http"],
+	"paths": {
+		"/login": {
+			"post": {
+				"tags": ["Auth"],
+				"summary": "Авторизація користувача",
+				"description": "Приймає логін і пароль, повертає токен при успішному вході.",
+				"parameters": [
+					{
+						"in": "body",
+						"name": "credentials",
+						"description": "Інформація для входу",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"required": ["username", "password"],
+							"properties": {
+								"username": {
+									"type": "string",
+									"example": "admin"
+								},
+								"password": {
+									"type": "string",
+									"example": "admin"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Успішна авторизація",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"token": {
+									"type": "string",
+									"example": "mock-token-123"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Невірний логін або пароль"
+					}
+				}
+			}
+		},
+		"/logs": {
+			"get": {
+				"tags": ["Logs"],
+				"summary": "Отримання журналу активностей",
+				"description": "Повертає список логів користувача",
+				"responses": {
+					"200": {
+						"description": "Список логів",
+						"schema": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"timestamp": {
+										"type": "string",
+										"format": "date-time",
+										"example": "2025-05-01T12:00:00Z"
+									},
+									"action": {
+										"type": "string",
+										"example": "Login"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
